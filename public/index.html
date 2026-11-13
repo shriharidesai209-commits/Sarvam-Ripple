@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarvam-Ripple | Graph Intelligence & Architectural Guardian for AI Coding Agents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --sarvam: #f97316;
+      --falkor: #ef4444;
+      --success: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    /* Background glow */
+    .glow-bg {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 450px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Navbar */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo-badge {
+      font-size: 11px;
+      background: linear-gradient(135deg, var(--sarvam), var(--accent));
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      margin-left: 24px;
+    }
+    .nav-links a:hover { color: #fff; }
+    .btn-github {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-github:hover { background: rgba(255, 255, 255, 0.16); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 80px 0 60px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5.5vw, 62px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 span.gradient {
+      background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #f97316 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 36px;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-primary:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+    /* Interactive Pipeline */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin: 60px 0;
+    }
+    .pipe-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .pipe-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+    .pipe-step {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .pipe-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pipe-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Terminal Showcase */
+    .terminal-box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 40px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px;
+      color: #e2e8f0;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .term-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .term-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+    .dot-green { background: #10b981; }
+    .term-cmd { color: #38bdf8; }
+    .term-comment { color: #64748b; }
+    .term-success { color: #4ade80; }
+    .term-alert { color: #f97316; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <div class="container">
+    <header>
+      <a href="#" class="logo">
+        <span>🌊 Sarvam-Ripple</span>
+        <span class="logo-badge">MCP Engine</span>
+      </a>
+      <div class="nav-links">
+        <a href="#pipeline">Architecture</a>
+        <a href="#tools">MCP Tools</a>
+        <a href="https://github.com/shriharidesai209-commits/Sarvam-Ripple" target="_blank" class="btn-github">GitHub Repo</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="pill">⚡ FalkorDB GraphBLAS + Sarvam AI Reasoning</div>
+      <h1>Stop AI Coding Agents From <span class="gradient">Breaking Code in the Dark</span></h1>
+      <p>
+        AI assistants suffer from tunnel vision. When they edit a shared utility or interface, consumers 4 hops away silently break. 
+        <strong>Sarvam-Ripple</strong> pairs FalkorDB's 4ms graph traversals with Sarvam AI's architectural safe planner over MCP.
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/shriharidesai209-commits/Sarvam-Ripple" target="_blank" class="btn-primary">View on GitHub</a>
+        <a href="#demo" class="btn-secondary">Explore Demo Codebase</a>
+      </div>
+    </section>
+
+    <div class="terminal-box" id="demo">
+      <div class="term-header">
+        <div class="term-dot dot-red"></div>
+        <div class="term-dot dot-yellow"></div>
+        <div class="term-dot dot-green"></div>
+      </div>
+      <div><span class="term-cmd">$ sarvam-ripple</span> plan src/types/api.ts --change "Rename field id to userId"</div>
+      <div class="term-comment">[Sarvam-Ripple] Evaluating blast radius for src/types/api.ts in FalkorDB (4ms)...</div>
+      <div class="term-alert">⚠️ Blast Radius Detected: 4 downstream consumers across 4 hops</div>
+      <br>
+      <div class="term-comment">--- 🧠 Sarvam AI Safe Architectural Edit Plan ---</div>
+      <div>1. <span class="term-alert">[HIGH RISK]</span> `src/types/api.ts`: Update UserProfile interface exports</div>
+      <div>2. <span class="term-alert">[HIGH RISK]</span> `src/services/auth.ts`: Refactor authenticateSession call sites (Hop 1)</div>
+      <div>3. <span class="term-success">[MEDIUM RISK]</span> `src/components/UserProfileCard.tsx`: Update user.id -> user.userId (Hop 2)</div>
+      <div>4. <span class="term-success">[LOW RISK]</span> `src/pages/Dashboard.tsx`: Validate props passing (Hop 3)</div>
+      <br>
+      <div class="term-success">✅ Safe topological order calculated. Zero regressions guaranteed.</div>
+    </div>
+
+    <section class="pipeline-grid" id="pipeline">
+      <div class="pipe-card">
+        <div class="pipe-step">Step 1</div>
+        <h3>AST Ingestion</h3>
+        <p>Uses <code>ts-morph</code> to parse TypeScript abstract syntax trees, resolving <code>@/*</code> aliases and barrel re-exports into static import graphs.</p>
+      </div>
+
+      <div class="pipe-card">
+        <div class="pipe-step">Step 2</div>
+        <h3>FalkorDB Engine</h3>
+        <p>Stores files as nodes and imports as edges. Executes sparse-matrix traversals in 3–5ms to identify multi-hop blast radiuses.</p>
+      </div>
+
+      <div class="pipe-card">
+        <div class="pipe-step">Step 3</div>
+        <h3>Sarvam AI Planner</h3>
+        <p>Sarvam-105B analyzes the affected nodes, explains what functions break, and generates a step-by-step safe refactoring sequence.</p>
+      </div>
+
+      <div class="pipe-card">
+        <div class="pipe-step">Step 4</div>
+        <h3>MCP Execution</h3>
+        <p>Exposes tools to Cursor, Claude, and Antigravity over the Model Context Protocol, executing safe multi-file edits automatically.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built with ❤️ by <strong>Shrihari Desai</strong> & <strong>Trivikram Kalagi</strong></p>
+      <p style="margin-top: 8px; font-size: 12px;">Powered by FalkorDB, Sarvam AI, and the Model Context Protocol (MCP).</p>
+    </footer>
+  </div>
+</body>
+</html>
