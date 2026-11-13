@@ -52,14 +52,19 @@ function buildMockPlan(
     };
   });
 
+  const impactSummary =
+    blastRadius.totalDependents === 0
+      ? `Altering \`${targetFile}\` has **zero downstream consumers**. This is a safe leaf modification with minimal architectural risk.`
+      : `Altering \`${targetFile}\` directly impacts **${blastRadius.totalDependents} downstream consumer(s)**. To prevent broken builds and cascading runtime errors, changes must be applied strictly in topological order from core dependency to outermost leaf files.`;
+
   const markdownPlan = `
 ### 🧠 Sarvam AI Safe Architectural Edit Plan
 **Target File**: \`${targetFile}\`
 **Proposed Change**: ${proposedChange}
-**Total Files at Risk**: ${blastRadius.totalDependents} files across ${blastRadius.maxHops} hop distances
+**Total Files at Risk**: ${blastRadius.totalDependents} file(s) across ${blastRadius.maxHops} hop distances
 
 #### 📋 Impact Summary
-Altering \`${targetFile}\` directly impacts **${blastRadius.totalDependents} downstream consumer(s)**. To prevent broken builds and cascading runtime errors, changes must be applied strictly in topological order from core dependency to outermost leaf files.
+${impactSummary}
 
 #### 🛠️ Step-by-Step Refactor Roadmap:
 ${steps
@@ -71,7 +76,7 @@ ${steps
   )
   .join('\n\n')}
 
-✅ *All ${steps.length} files sequenced topologically to guarantee zero-regression execution.*
+✅ *All ${steps.length} file(s) sequenced topologically to guarantee zero-regression execution.*
 `.trim();
 
   return {

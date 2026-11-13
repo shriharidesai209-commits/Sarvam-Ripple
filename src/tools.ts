@@ -46,12 +46,17 @@ function normalizeQueryPath(p: string): string {
   return p.replace(/\\/g, '/').replace(/^\.\//, '');
 }
 
+function sanitizeMermaid(label: string): string {
+  return label.replace(/["`[\]()]/g, '');
+}
+
 /**
  * Generates an interactive, color-coded Mermaid diagram representing the blast radius.
  */
 export function generateMermaidGraph(target: string, byDistance: Record<number, string[]>): string {
+  const cleanTarget = sanitizeMermaid(target);
   let mermaid = '```mermaid\nflowchart TD\n';
-  mermaid += `    target["🎯 ${target} (Target)"]:::targetNode\n`;
+  mermaid += `    target["🎯 ${cleanTarget} (Target)"]:::targetNode\n`;
 
   const nodeMap = new Map<string, string>();
   nodeMap.set(target, 'target');
@@ -66,8 +71,8 @@ export function generateMermaidGraph(target: string, byDistance: Record<number, 
     for (const f of files) {
       const nodeId = `node_${idCounter++}`;
       nodeMap.set(f, nodeId);
-      const shortName = f.split('/').pop() || f;
-      mermaid += `    ${nodeId}["Hop ${dist}: ${shortName}"]:::hop${dist}Node\n`;
+      const shortName = sanitizeMermaid(f.split('/').pop() || f);
+      mermaid += `    ${nodeId}["Hop ${dist}: ${shortName}"]:::hop${Math.min(dist, 4)}Node\n`;
     }
   }
 
@@ -261,6 +266,9 @@ export async function safeEditOrder(
   const items: SafeEditOrderItem[] = [];
   let step = 1;
 
+  const seen = new Set<string>();
+  seen.add(radius.target);
+
   // The target file itself is step 1 (distance 0)
   items.push({
     step: step++,
@@ -275,11 +283,14 @@ export async function safeEditOrder(
   for (const dist of distances) {
     const files = radius.byDistance[dist];
     for (const f of files) {
-      items.push({
-        step: step++,
-        distanceFromTarget: dist,
-        path: f,
-      });
+      if (!seen.has(f)) {
+        seen.add(f);
+        items.push({
+          step: step++,
+          distanceFromTarget: dist,
+          path: f,
+        });
+      }
     }
   }
 

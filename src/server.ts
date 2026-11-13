@@ -120,8 +120,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (name) {
       case 'generate_safe_plan': {
-        const filePath = String(args?.path);
-        const proposedChange = String(args?.proposedChange || 'Refactor file');
+        if (!args?.path || typeof args.path !== 'string') {
+          throw new Error('Missing required argument: "path" must be provided as a string');
+        }
+        const filePath = args.path.trim();
+        const proposedChange = args?.proposedChange ? String(args.proposedChange).trim() : 'Refactor file';
         const radius = await blastRadius(filePath, 4);
         const order = await safeEditOrder(filePath);
         const sarvamPlan = await generateSarvamSafePlan(filePath, proposedChange, radius, order);
@@ -149,7 +152,10 @@ ${radius.mermaidDiagram}
       }
 
       case 'blast_radius': {
-        const filePath = String(args?.path);
+        if (!args?.path || typeof args.path !== 'string') {
+          throw new Error('Missing required argument: "path" must be provided as a string');
+        }
+        const filePath = args.path.trim();
         const maxHops = args?.maxHops ? Number(args.maxHops) : 4;
         const result = await blastRadius(filePath, maxHops);
         return {
@@ -163,8 +169,11 @@ ${radius.mermaidDiagram}
       }
 
       case 'why_affected': {
-        const from = String(args?.from);
-        const to = String(args?.to);
+        if (!args?.from || !args?.to) {
+          throw new Error('Missing required arguments: both "from" and "to" are required');
+        }
+        const from = String(args.from).trim();
+        const to = String(args.to).trim();
         const result = await whyAffected(from, to);
         return {
           content: [
@@ -190,7 +199,10 @@ ${radius.mermaidDiagram}
       }
 
       case 'safe_edit_order': {
-        const filePath = String(args?.path);
+        if (!args?.path || typeof args.path !== 'string') {
+          throw new Error('Missing required argument: "path" must be provided as a string');
+        }
+        const filePath = args.path.trim();
         const result = await safeEditOrder(filePath);
         return {
           content: [
