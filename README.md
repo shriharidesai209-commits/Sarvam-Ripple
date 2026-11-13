@@ -1,5 +1,6 @@
 <div align="center">
-  <h1>🌊 Sarvam-Ripple</h1>
+  <img src="logo.png" alt="Sarvam-Ripple Logo" width="130" />
+  <h1>Sarvam-Ripple</h1>
   <p><strong>FalkorDB-Powered Dependency Graph & Sarvam AI Architectural Guardian for AI Coding Agents</strong></p>
   <p>
     <a href="https://github.com/shriharidesai209-commits/Sarvam-Ripple"><strong>GitHub Repository</strong></a> &bull;
