@@ -192,7 +192,9 @@ node dist/cli.js query safe_edit_order src/components/button.tsx
 ---
 
 ## 👥 Built By
-- **Shrihari Desai**
 - **Trivikram Kalagi**
+- **Shrihari Desai**
+- **Vinayak Pattar**
+- **Anand Sirigiri**
 
 Licensed under [MIT](LICENSE).
