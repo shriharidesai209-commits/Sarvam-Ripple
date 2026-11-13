@@ -186,8 +186,12 @@
           </p>
           <div class="relative bg-surface-container-low border border-outline-variant/40 p-4 rounded font-mono text-xs text-on-surface leading-relaxed overflow-x-auto">
             <pre id="agentPromptText" class="whitespace-pre-wrap">Please install and set up Sarvam-Ripple for this workspace by performing the following steps:
-1. Ensure FalkorDB is running. If not running, start it:
-   docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
+1. Check FalkorDB availability:
+   - Check if Docker is installed and running (`docker ps`).
+   - If Docker is running, start FalkorDB:
+     docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
+   - If Docker is NOT installed or running, inform the user:
+     "Docker is not detected. You can either install Docker Desktop OR use a free FalkorDB Cloud instance (no Docker needed) from https://app.falkordb.cloud and configure FALKOR_HOST / FALKOR_PORT in .env."
 2. Clone and build Sarvam-Ripple into a local helper folder:
    git clone https://github.com/shriharidesai209-commits/Sarvam-Ripple.git .sarvam-ripple
    cd .sarvam-ripple && npm install && npm run build && cd ..
