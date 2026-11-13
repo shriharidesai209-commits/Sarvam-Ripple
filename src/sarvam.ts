@@ -142,7 +142,8 @@ Return concise, highly actionable developer markdown.
             content: prompt,
           },
         ],
-        temperature: 0.2,
+        temperature: 0.3,
+        max_tokens: 4096,
       }),
     });
 
@@ -153,7 +154,8 @@ Return concise, highly actionable developer markdown.
     }
 
     const data = (await response.json()) as any;
-    const content = data.choices?.[0]?.message?.content || '';
+    const msg = data.choices?.[0]?.message;
+    const content = msg?.content || msg?.reasoning || '';
 
     return {
       target: targetFile,

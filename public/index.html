@@ -85,7 +85,7 @@
       
       <!-- Logo + Brand -->
       <a href="#" onclick="switchTab('home')" class="flex items-center gap-3 group focus:outline-none">
-        <img src="logo.png" alt="Sarvam-Ripple Cube" class="w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+        <img src="logo.png" alt="Sarvam-Ripple Cube" class="w-11 h-11 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
         <div class="flex items-center gap-2">
           <span class="font-serif-display text-xl font-medium tracking-tight text-on-surface">SARVAM-RIPPLE</span>
           <span class="font-mono text-[10px] px-1.5 py-0.5 bg-surface-container-high text-on-surface-variant font-semibold rounded uppercase tracking-wider">v1.0</span>
@@ -186,19 +186,33 @@
           </p>
           <div class="relative bg-surface-container-low border border-outline-variant/40 p-4 rounded font-mono text-xs text-on-surface leading-relaxed overflow-x-auto">
             <pre id="agentPromptText" class="whitespace-pre-wrap">Please install and set up Sarvam-Ripple for this workspace by performing the following steps:
+
 1. Check FalkorDB availability:
-   - Check if Docker is installed and running (`docker ps`).
+   - Check if FalkorDB is reachable on localhost:6379.
+   - If not reachable, check if Docker is installed and running (`docker ps`).
    - If Docker is running, start FalkorDB:
      docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
-   - If Docker is NOT installed or running, inform the user:
-     "Docker is not detected. You can either install Docker Desktop OR use a free FalkorDB Cloud instance (no Docker needed) from https://app.falkordb.cloud and configure FALKOR_HOST / FALKOR_PORT in .env."
+   - If Docker or FalkorDB is NOT installed on this machine, inform the user:
+     "Neither Docker nor FalkorDB was detected locally. You have two instant options:
+      Option A (Zero-install Cloud - Recommended): Create a free database in 30 seconds at https://app.falkordb.cloud (no Docker required). Share your Host, Port, and Password, and I will configure .env automatically!
+      Option B (Local): Install Docker Desktop (https://www.docker.com) or install FalkorDB natively (`brew install falkordb/tap/falkordb` or `curl -fsSL https://www.falkordb.com/install.sh | bash`)."
+
 2. Clone and build Sarvam-Ripple into a local helper folder:
    git clone https://github.com/shriharidesai209-commits/Sarvam-Ripple.git .sarvam-ripple
    cd .sarvam-ripple && npm install && npm run build && cd ..
-3. Index this repository into FalkorDB:
+
+3. Configure environment:
+   In `.sarvam-ripple/.env`, set:
+   SARVAM_API_KEY=&lt;your_sarvam_api_key&gt;
+   FALKOR_HOST=localhost (or your FalkorDB Cloud host)
+   FALKOR_PORT=6379 (or your FalkorDB Cloud port)
+
+4. Index this repository into FalkorDB:
    node .sarvam-ripple/dist/cli.js index .
-4. Add the following rule to your instructions:
-   "Before modifying, renaming, or refactoring any exported function, type, or component, you MUST consult Sarvam-Ripple's generate_safe_plan tool (or run `node .sarvam-ripple/dist/cli.js plan <file> -c '<change>'`) to inspect the multi-hop blast radius and apply all edits in topological safe order so nothing breaks."
+
+5. Add the following rule to your instructions:
+   "Before modifying, renaming, or refactoring any exported function, type, or component, you MUST consult Sarvam-Ripple's generate_safe_plan tool (or run `node .sarvam-ripple/dist/cli.js plan &lt;file&gt; -c '&lt;change&gt;'`) to inspect the multi-hop blast radius and apply all edits in topological safe order so nothing breaks."
+
 Confirm when setup and indexing are complete!</pre>
           </div>
         </div>

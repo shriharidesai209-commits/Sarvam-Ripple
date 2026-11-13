@@ -39,19 +39,33 @@ Plain text search and grep cannot solve this:
 
 ```text
 Please install and set up Sarvam-Ripple for this workspace by performing the following steps:
+
 1. Check FalkorDB availability:
-   - Check if Docker is installed and running (`docker ps`).
-   - If Docker is running, start FalkorDB:
+   - Check if FalkorDB is reachable on localhost:6379.
+   - If not reachable, check if Docker is installed and running (`docker ps`).
+   - If Docker is running, launch FalkorDB:
      docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
-   - If Docker is NOT installed or running, inform the user:
-     "Docker is not detected. You can either install Docker Desktop OR use a free FalkorDB Cloud instance (no Docker needed) from https://app.falkordb.cloud and configure FALKOR_HOST / FALKOR_PORT in .env."
+   - If Docker or FalkorDB is NOT installed on this machine, guide the user:
+     "Neither Docker nor FalkorDB was detected locally. You have two instant options:
+      Option A (Zero-install Cloud - Recommended): Create a free database in 30 seconds at https://app.falkordb.cloud (no Docker required). Share your Host, Port, and Password, and I will configure .env automatically!
+      Option B (Local): Install Docker Desktop (https://www.docker.com) or install FalkorDB natively (`brew install falkordb/tap/falkordb` or `curl -fsSL https://www.falkordb.com/install.sh | bash`)."
+
 2. Clone and build Sarvam-Ripple into a local helper folder:
    git clone https://github.com/shriharidesai209-commits/Sarvam-Ripple.git .sarvam-ripple
    cd .sarvam-ripple && npm install && npm run build && cd ..
-3. Index this repository into FalkorDB:
+
+3. Configure environment:
+   In `.sarvam-ripple/.env`, set:
+   SARVAM_API_KEY=<your_sarvam_api_key>
+   FALKOR_HOST=localhost (or your FalkorDB Cloud host)
+   FALKOR_PORT=6379 (or your FalkorDB Cloud port)
+
+4. Index this repository into FalkorDB:
    node .sarvam-ripple/dist/cli.js index .
-4. Add the following rule to your instructions:
+
+5. Add the following rule to your instructions:
    "Before modifying, renaming, or refactoring any exported function, type, or component, you MUST consult Sarvam-Ripple's generate_safe_plan tool (or run `node .sarvam-ripple/dist/cli.js plan <file> -c '<change>'`) to inspect the multi-hop blast radius and apply all edits in topological safe order so nothing breaks."
+
 Confirm when setup and indexing are complete!
 ```
 
