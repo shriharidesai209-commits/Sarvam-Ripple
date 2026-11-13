@@ -297,6 +297,49 @@
       <div class="term-success">✅ Safe topological order calculated. Zero regressions guaranteed.</div>
     </div>
 
+    <!-- 1-Click Setup Box -->
+    <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 28px; margin: 40px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+        <div>
+          <span style="font-size: 12px; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 1px;">⚡ Zero Manual Setup</span>
+          <h2 style="font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px;">1-Click Agent Setup Prompt</h2>
+        </div>
+        <button id="copyPromptBtn" onclick="copyAgentPrompt()" style="background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13.5px; transition: background 0.2s;">
+          📋 Copy Setup Prompt
+        </button>
+      </div>
+      <p style="font-size: 14.5px; color: var(--text-muted); margin-bottom: 16px;">
+        Paste this prompt directly into your AI coding assistant (Cursor, Claude, or Antigravity). The agent will autonomously spin up FalkorDB, install Sarvam-Ripple, index your project, and enforce graph-safety automatically:
+      </p>
+      <pre id="agentPromptText" style="background: #090d16; border: 1px solid var(--border); padding: 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #94a3b8; white-space: pre-wrap; word-break: break-all;">Please install and set up Sarvam-Ripple for this workspace by performing the following steps:
+1. Ensure FalkorDB is running. If not running, start it:
+   docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
+2. Clone and build Sarvam-Ripple into a local helper folder:
+   git clone https://github.com/shriharidesai209-commits/Sarvam-Ripple.git .sarvam-ripple
+   cd .sarvam-ripple && npm install && npm run build && cd ..
+3. Index this repository into FalkorDB:
+   node .sarvam-ripple/dist/cli.js index .
+4. Add the following rule to your instructions:
+   "Before modifying, renaming, or refactoring any exported function, type, or component, you MUST consult Sarvam-Ripple's generate_safe_plan tool (or run `node .sarvam-ripple/dist/cli.js plan <file> -c '<change>'`) to inspect the multi-hop blast radius and apply all edits in topological safe order so nothing breaks."
+Confirm when setup and indexing are complete!</pre>
+    </div>
+
+    <script>
+      function copyAgentPrompt() {
+        const text = document.getElementById('agentPromptText').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById('copyPromptBtn');
+          const original = btn.innerHTML;
+          btn.innerHTML = '✅ Copied to Clipboard!';
+          btn.style.background = '#10b981';
+          setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.background = 'var(--accent)';
+          }, 2500);
+        });
+      }
+    </script>
+
     <section class="pipeline-grid" id="pipeline">
       <div class="pipe-card">
         <div class="pipe-step">Step 1</div>

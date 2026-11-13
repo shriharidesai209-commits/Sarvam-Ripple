@@ -32,6 +32,26 @@ Plain text search and grep cannot solve this:
 
 ---
 
+## ⚡ 1-Click Agent Setup Prompt (Copy & Paste Into Your AI Agent)
+
+> **💡 Zero Manual Setup:** Copy the prompt below and paste it directly into your AI coding assistant (Cursor, Claude, or Antigravity). The agent will autonomously spin up FalkorDB, install Sarvam-Ripple, index your repository, and enable graph-safety enforcement:
+
+```text
+Please install and set up Sarvam-Ripple for this workspace by performing the following steps:
+1. Ensure FalkorDB is running. If not running, start it:
+   docker run -d --name falkordb --restart unless-stopped -p 6379:6379 -p 3000:3000 falkordb/falkordb:latest
+2. Clone and build Sarvam-Ripple into a local helper folder:
+   git clone https://github.com/shriharidesai209-commits/Sarvam-Ripple.git .sarvam-ripple
+   cd .sarvam-ripple && npm install && npm run build && cd ..
+3. Index this repository into FalkorDB:
+   node .sarvam-ripple/dist/cli.js index .
+4. Add the following rule to your instructions:
+   "Before modifying, renaming, or refactoring any exported function, type, or component, you MUST consult Sarvam-Ripple's generate_safe_plan tool (or run `node .sarvam-ripple/dist/cli.js plan <file> -c '<change>'`) to inspect the multi-hop blast radius and apply all edits in topological safe order so nothing breaks."
+Confirm when setup and indexing are complete!
+```
+
+---
+
 ## 🏗️ System Architecture
 
 ```mermaid
